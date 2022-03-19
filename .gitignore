@@ -2,7 +2,6 @@
 .env**
 .venv**
 **.bak
-*.conf
 __testing__
 __testing__/**
 *.log
