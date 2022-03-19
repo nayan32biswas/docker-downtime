@@ -2,7 +2,7 @@ version: "3.7"
 
 # environment
 x-volumes: &env-volume
-  ALLOWED_HOSTS: "http://localhost:8080,http://localhost"
+  ALLOWED_HOSTS: "http://localhost:8000,http://localhost"
   SECRET_KEY: "askrrt23fui4y5t9frhnijqwehry2fg349roimhewdirfjhw3784ryt"
 
   REDIS_LOCAL_URL: "redis://redis:6379/1"
@@ -16,7 +16,9 @@ services:
     image: nayan32biswas/docker_downtime:latest
     container_name: docker_downtime_server
     # command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+    # command: gunicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4 --worker-class
+    command: gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
     ports:
       - 8000:8000
     environment:
@@ -31,7 +33,7 @@ services:
   redis:
     image: redis:6
     container_name: docker_downtime_redis
-    restart: unless-stopped
+    # restart: unless-stopped
     networks:
       - docker_downtime-backend-tier
     volumes:

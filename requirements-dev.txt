@@ -1,4 +1,0 @@
--r requirements.txt
-
-black==22.1.0
-ipython==8.1.1
