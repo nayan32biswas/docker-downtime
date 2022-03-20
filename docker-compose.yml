@@ -27,8 +27,6 @@ services:
       start_period: 30s
     volumes:
       - ./:/app/server/
-    depends_on:
-      - redis
     networks:
       - docker_downtime-backend-tier
 
@@ -46,8 +44,6 @@ services:
 
     volumes:
       - ./:/app/server/
-    depends_on:
-      - redis
     networks:
       - docker_downtime-backend-tier
 
@@ -64,19 +60,6 @@ services:
       - "/var/log/nginx:/var/log/nginx"
     networks:
       - docker_downtime-backend-tier
-
-  redis:
-    image: redis:6
-    container_name: docker_downtime_redis
-    # restart: unless-stopped
-    networks:
-      - docker_downtime-backend-tier
-    volumes:
-      - docker_downtime-redis:/data
-
-volumes:
-  docker_downtime-redis:
-    driver: local
 
 networks:
   docker_downtime-backend-tier:
